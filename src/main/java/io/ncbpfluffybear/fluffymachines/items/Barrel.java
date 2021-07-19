@@ -32,6 +32,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.util.Vector;
 
+
 import javax.annotation.Nonnull;
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class Barrel extends NonHopperableBlock implements HologramOwner {
 
                     menu.replaceExistingItem(STATUS_SLOT, new CustomItem(
                         Material.LIME_STAINED_GLASS_PANE, "&6Items Stored: &e0" + " / " + MAX_STORAGE, "&70%"));
-                    menu.replaceExistingItem(DISPLAY_SLOT, new CustomItem(Material.BARRIER, "&c无物品"));
+                    menu.replaceExistingItem(DISPLAY_SLOT, new ItemStack(Material.AIR));
 
                     BlockStorage.addBlockInfo(b, "stored", "0");
 
