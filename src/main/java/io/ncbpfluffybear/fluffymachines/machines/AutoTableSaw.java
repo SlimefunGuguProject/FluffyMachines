@@ -163,7 +163,7 @@ public class AutoTableSaw extends SlimefunItem implements EnergyNetComponent {
         borders(preset, border, inputBorder, outputBorder);
         preset.addItem(2, new CustomItemStack(new ItemStack(Material.STONECUTTER), "&e使用方法", "",
                 "&b把将要制作的物品配方放入里面",
-                "&4仅支持台钜的配方"
+                "&4仅支持台锯的配方"
             ),
             ChestMenuUtils.getEmptyClickHandler());
     }
