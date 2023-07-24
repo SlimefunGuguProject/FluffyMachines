@@ -180,9 +180,9 @@ public class FluffyItems {
     public static final SlimefunItemStack AUTO_TABLE_SAW = new SlimefunItemStack(
         "AUTO_TABLE_SAW",
         Material.STONECUTTER,
-        "&6全自动切石机",
+        "&6全自动台锯",
         "",
-        "&7全自动制造&6切石机&7物品",
+        "&7全自动制造&6台锯&7物品",
         "",
         LoreBuilderDynamic.powerBuffer(AutoTableSaw.CAPACITY),
         LoreBuilderDynamic.powerPerSecond(AutoTableSaw.ENERGY_CONSUMPTION)
