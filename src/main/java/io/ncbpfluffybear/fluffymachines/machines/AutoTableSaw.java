@@ -60,9 +60,7 @@ public class AutoTableSaw extends SlimefunItem implements EnergyNetComponent {
         super(category, item, recipeType, recipe);
 
         for (Material log : Tag.LOGS.getValues()) {
-            Optional<Material> planks = getPlanks(log);
-
-            planks.ifPresent(material -> tableSawRecipes.put(new ItemStack(log), new ItemStack(material, 8)));
+            getPlanks(log).ifPresent(material -> tableSawRecipes.put(new ItemStack(log), new ItemStack(material, 8)));
         }
 
         for (Material plank : Tag.PLANKS.getValues()) {
