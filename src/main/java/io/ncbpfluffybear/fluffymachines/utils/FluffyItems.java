@@ -429,7 +429,7 @@ public class FluffyItems {
         FluffyWrench.Wrench.CARBONADO.getMaterial(),
         "&7精制扳手",
         "",
-        "&7快速拆除Slimefun的络元件和机器(每次使用消耗 1J 电力)",
+        "&7快速拆除Slimefun的网络元件和机器（每次使用消耗 1J 电力）",
         "",
         "&e左键点击/右键点击&7进行拆除",
         "",
