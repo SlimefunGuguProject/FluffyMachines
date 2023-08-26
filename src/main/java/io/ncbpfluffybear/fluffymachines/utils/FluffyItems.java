@@ -409,7 +409,7 @@ public class FluffyItems {
         FluffyWrench.Wrench.DEFAULT.getMaterial(),
         "&6扳手",
         "",
-        "&7快速拆除Slimefun的网络元件和机器(消耗耐久)",
+        "&7快速拆除Slimefun的网络元件和机器（消耗耐久）",
         "",
         "&e左键点击/右键点击&7进行拆除"
     );
