@@ -23,7 +23,6 @@ import me.mrCookieSlime.Slimefun.api.inventory.DirtyChestMenu;
 import me.mrCookieSlime.Slimefun.api.item_transport.ItemTransportFlow;
 import net.guizhanss.fluffymachines.utils.MetalUtils;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -116,8 +115,8 @@ public class SuperheatedFurnace extends NonHopperableBlock {
                 return (p.hasPermission("slimefun.inventory.bypass")
                     || Slimefun.getProtectionManager().hasPermission(
                     p, b.getLocation(), Interaction.INTERACT_BLOCK))
-                    && getBlockInfo(b.getLocation(), "accessible") != null
-                    && getBlockInfo(b.getLocation(), "ignited") != null && checkStructure(b);
+                    && StorageCacheUtils.getData(b.getLocation(), "accessible") != null
+                    && StorageCacheUtils.getData(b.getLocation(), "ignited") != null && checkStructure(b);
             }
 
             @Override
@@ -151,8 +150,8 @@ public class SuperheatedFurnace extends NonHopperableBlock {
 
                     int itemCount = 0;
 
-                    int stored = Integer.parseInt(getBlockInfo(b.getLocation(), "stored"));
-                    String type = getBlockInfo(b.getLocation(), "type");
+                    int stored = Integer.parseInt(StorageCacheUtils.getData(b.getLocation(), "stored"));
+                    String type = StorageCacheUtils.getData(b.getLocation(), "type");
 
                     if (breakOnlyWhenEmpty.getValue() && stored != 0) {
                         Utils.send(p, "&c请清空铸造厂后再破坏!");
@@ -280,9 +279,9 @@ public class SuperheatedFurnace extends NonHopperableBlock {
         if (inputItem != null) {
 
             int amount = inputItem.getAmount();
-            String type = getBlockInfo(b.getLocation(), "type");
+            String type = StorageCacheUtils.getData(b.getLocation(), "type");
             SlimefunItem sfItem = SlimefunItem.getByItem(inputItem);
-            int stored = Integer.parseInt(getBlockInfo(b.getLocation(), "stored"));
+            int stored = Integer.parseInt(StorageCacheUtils.getData(b.getLocation(), "stored"));
 
             if (type == null) {
 
@@ -336,25 +335,25 @@ public class SuperheatedFurnace extends NonHopperableBlock {
 
 
     private void registerDust(Block b, String type, int amount) {
-        int stored = Integer.parseInt(getBlockInfo(b.getLocation(), "stored"));
-        setBlockInfo(b, "stored", String.valueOf(stored + amount));
-        setBlockInfo(b, "type", type);
+        int stored = Integer.parseInt(StorageCacheUtils.getData(b.getLocation(), "stored"));
+        StorageCacheUtils.setData(b.getLocation(), "stored", String.valueOf(stored + amount));
+        StorageCacheUtils.setData(b.getLocation(), "type", type);
         updateIndicator(b);
     }
 
     private void addDust(Block b, int amount) {
-        int stored = Integer.parseInt(getBlockInfo(b.getLocation(), "stored"));
-        setBlockInfo(b, "stored", String.valueOf(stored + amount));
+        int stored = Integer.parseInt(StorageCacheUtils.getData(b.getLocation(), "stored"));
+        StorageCacheUtils.setData(b.getLocation(), "stored", String.valueOf(stored + amount));
         updateIndicator(b);
     }
 
     private void updateIndicator(Block b) {
         BlockMenu inv = StorageCacheUtils.getMenu(b.getLocation());
-        String stored = getBlockInfo(b.getLocation(), "stored");
-        String type = MetalUtils.getMetalName(getBlockInfo(b.getLocation(), "type"));
+        String stored = StorageCacheUtils.getData(b.getLocation(), "stored");
+        String type = MetalUtils.getMetalName(StorageCacheUtils.getData(b.getLocation(), "type"));
 
         if (stored.equals("0")) {
-            setBlockInfo(b, "type", null);
+            StorageCacheUtils.removeData(b.getLocation(), "type");
             inv.replaceExistingItem(INPUT_INDICATOR, new CustomItemStack(new ItemStack(Material.CHEST), "&6可用矿粉: &e0 &7(0%)", "&b类型: 无", "&7组: 0"));
         } else {
             inv.replaceExistingItem(INPUT_INDICATOR, new CustomItemStack(new ItemStack(Material.CHEST), "&6可用锭: &e" + stored + " &7(" + Double.parseDouble(stored) / MAX_STORAGE * 100 + "%)", "&b类型: " + type, "&7组: " + Double.parseDouble(stored) / 64));
@@ -368,15 +367,15 @@ public class SuperheatedFurnace extends NonHopperableBlock {
 
     private void retrieveDust(BlockMenu menu, Block b, boolean isRightClicked) {
 
-        if (getBlockInfo(b.getLocation(), "stored") == null)
+        if (StorageCacheUtils.getData(b.getLocation(), "stored") == null)
             return;
 
-        int stored = Integer.parseInt(getBlockInfo(b.getLocation(), "stored"));
+        int stored = Integer.parseInt(StorageCacheUtils.getData(b.getLocation(), "stored"));
 
         if (stored > 0 && (menu.getItemInSlot(DUST_OUTPUT_SLOT) == null
             || menu.getItemInSlot(DUST_OUTPUT_SLOT).getAmount() < 64)) {
 
-            String type = getBlockInfo(b.getLocation(), "type");
+            String type = StorageCacheUtils.getData(b.getLocation(), "type");
             int amount;
 
             if (!isRightClicked) {
@@ -391,7 +390,7 @@ public class SuperheatedFurnace extends NonHopperableBlock {
 
             ItemStack dustItem = new CustomItemStack(SlimefunItem.getById(type + "_DUST").getItem().clone(), amount);
             if (menu.fits(dustItem, DUST_OUTPUT_SLOT)) {
-                setBlockInfo(b, "stored", String.valueOf(stored - amount));
+                StorageCacheUtils.setData(b.getLocation(), "stored", String.valueOf(stored - amount));
                 menu.pushItem(dustItem, DUST_OUTPUT_SLOT);
             }
 
@@ -401,15 +400,15 @@ public class SuperheatedFurnace extends NonHopperableBlock {
 
     private void retrieveIngot(BlockMenu menu, Block b, boolean isRightClicked) {
 
-        if (getBlockInfo(b.getLocation(), "stored") == null)
+        if (StorageCacheUtils.getData(b.getLocation(), "stored") == null)
             return;
 
-        int stored = Integer.parseInt(getBlockInfo(b.getLocation(), "stored"));
+        int stored = Integer.parseInt(StorageCacheUtils.getData(b.getLocation(), "stored"));
 
         if (stored > 0 && (menu.getItemInSlot(INGOT_OUTPUT_SLOT) == null
             || menu.getItemInSlot(INGOT_OUTPUT_SLOT).getAmount() < 64)) {
 
-            String type = getBlockInfo(b.getLocation(), "type");
+            String type = StorageCacheUtils.getData(b.getLocation(), "type");
 
             int amount;
 
@@ -433,7 +432,7 @@ public class SuperheatedFurnace extends NonHopperableBlock {
             }
 
             if (menu.fits(ingotItem, INGOT_OUTPUT_SLOT)) {
-                setBlockInfo(b, "stored", String.valueOf(stored - amount));
+                StorageCacheUtils.setData(b.getLocation(), "stored", String.valueOf(stored - amount));
                 menu.pushItem(ingotItem, INGOT_OUTPUT_SLOT);
             }
 
@@ -468,13 +467,5 @@ public class SuperheatedFurnace extends NonHopperableBlock {
 
     private boolean checkRite(Block b) {
         return (b.getType() == netherite);
-    }
-
-    private void setBlockInfo(Block b, String key, String data) {
-        StorageCacheUtils.setData(b.getLocation(), key, data);
-    }
-
-    private String getBlockInfo(Location l, String key) {
-        return StorageCacheUtils.getData(l, key);
     }
 }
