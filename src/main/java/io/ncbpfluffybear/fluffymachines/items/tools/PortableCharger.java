@@ -99,14 +99,19 @@ public class PortableCharger extends SimpleSlimefunItem<ItemUseHandler> implemen
 
                     if (sfItem instanceof PortableCharger) {
                         p.closeInventory();
-                        Utils.send(p, "&c您不能为便携充电器充电");
+                        Utils.send(p, "&c你不能为便携充电器充电");
                     }
 
                     if (sfItem instanceof Rechargeable) {
-
                         Rechargeable device = (Rechargeable) sfItem;
                         float neededCharge = device.getMaxItemCharge(deviceItem)
                             - device.getItemCharge(deviceItem);
+                        // fix: 充电器物品不再有效时，停止充电
+                        if (chargerItem == null || chargerItem.getType().isAir()) {
+                            cancel();
+                            Utils.send(p, "&c你把便携充电器放哪儿了？");
+                            return;
+                        }
                         float availableCharge = charger.getItemCharge(chargerItem);
 
                         // Three different scenarios
@@ -143,7 +148,7 @@ public class PortableCharger extends SimpleSlimefunItem<ItemUseHandler> implemen
 
                         // Check if player left an item inside
                         if (forgottenItem != null) {
-                            Utils.send(p, "&c你把物品落在充电器里了,现在还给你");
+                            Utils.send(p, "&c你忘记取出物品了，现在还给你");
                             Utils.giveOrDropItem(p, forgottenItem);
                         }
                     }
