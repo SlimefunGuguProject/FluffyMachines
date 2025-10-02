@@ -129,7 +129,7 @@ public class BackpackUnloader extends SlimefunItem implements EnergyNetComponent
                 // No ID
                 List<String> lore = inputItem.getItemMeta().getLore();
                 for (String s : lore) {
-                    if (s.equals(ChatColor.GRAY + "ID: <ID>")) {
+                    if (s.equals(ChatColor.GRAY + "所有者: ")) {
                         rejectInput(inv);
                         return;
                     }
@@ -141,6 +141,7 @@ public class BackpackUnloader extends SlimefunItem implements EnergyNetComponent
                         if (bpinv.getItem(slot) != null) {
                             ItemStack transferItem = bpinv.getItem(slot);
                             bpinv.setItem(slot, null);
+                            Slimefun.getDatabaseManager().getProfileDataController().saveBackpackInventory(backpack, slot);
                             inv.pushItem(transferItem, getOutputSlots());
                             removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
                             return;

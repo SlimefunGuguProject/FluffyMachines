@@ -135,7 +135,7 @@ public class BackpackLoader extends SlimefunItem implements EnergyNetComponent {
                     // Make sure it has an ID
                     List<String> lore = backpackItem.getItemMeta().getLore();
                     for (String s : lore) {
-                        if (s.equals(ChatColor.GRAY + "ID: <ID>")) {
+                        if (s.equals(ChatColor.GRAY + "所有者: ")) {
                             invalidItem = true;
                             break;
                         }
@@ -192,6 +192,7 @@ public class BackpackLoader extends SlimefunItem implements EnergyNetComponent {
                     // IntelliJ wanted me to put it as a separate variable so here we are
                     inv.replaceExistingItem(finalOccupiedInputSlot, null);
                     bpinv.setItem(bpSlot, transferItem);
+                    Slimefun.getDatabaseManager().getProfileDataController().saveBackpackInventory(backpack, bpSlot);
 
                     removeCharge(b.getLocation(), ENERGY_CONSUMPTION);
                 }
