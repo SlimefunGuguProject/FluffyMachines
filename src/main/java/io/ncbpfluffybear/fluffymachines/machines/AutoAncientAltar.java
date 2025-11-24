@@ -352,9 +352,9 @@ public class AutoAncientAltar extends SlimefunItem implements EnergyNetComponent
             } catch (IllegalArgumentException ignored) {
             }
 
-        } else if (SlimefunUtils.isItemSimilar(catalystItem, SlimefunItems.BROKEN_SPAWNER, false, false)) {
+        } else if (sfCatalyst instanceof BrokenSpawner brokenSpawner && brokenSpawner.getRecipeType() == RecipeType.ANCIENT_ALTAR) {
 
-            Optional<ItemStack> result = checkRecipe(SlimefunItems.BROKEN_SPAWNER, pedestalItems);
+            Optional<ItemStack> result = checkRecipe(brokenSpawner.getItem(), pedestalItems);
             if (result.isPresent()) {
                 RepairedSpawner spawner = (RepairedSpawner) SlimefunItems.REPAIRED_SPAWNER.getItem();
                 ItemStack spawnerResult = spawner.getItemForEntityType(spawner.getEntityType(catalystItem).orElse(EntityType.PIG));
