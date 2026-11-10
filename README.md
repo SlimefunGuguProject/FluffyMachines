@@ -9,17 +9,7 @@
 
 ## 下载
 
-点击这里下载 FluffyMachines: [下载 FluffyMachines](https://builds.guizhanss.net/baoad/FluffyMachines/master)
-
-<p align="center">
-  <a href="https://github.com/baoad/FluffyMachines/actions/workflows/maven.yml">
-    <img src="https://github.com/baoad/FluffyMachines/actions/workflows/maven.yml/badge.svg" alt="Java CI"/>
-  </a>
-
-  <a href="https://builds.guizhanss.net/baoad/FluffyMachines/master">
-    <img src="https://builds.guizhanss.net/f/baoad/FluffyMachines/master/badge.svg" alt="Build status"/>
-  </a>
-</p>
+[下载 FluffyMachines](https://resources.guizhanss.com/plugin/FluffyMachines)
 
 ## 机器
 
